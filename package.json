@@ -10,8 +10,15 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@material/button": "^0.44.0",
+    "@material/card": "^0.44.0",
+    "@material/icon-button": "^0.44.0",
+    "@material/layout-grid": "^0.41.0",
+    "@material/linear-progress": "^0.43.0",
     "bootstrap": "^4.2.1",
+    "jquery": "^3.3.1",
     "moment": "^2.24.0",
+    "popper.js": "^1.14.7",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.22",
     "vue-class-component": "^6.0.0",
@@ -33,6 +40,7 @@
     "sass-loader": "^7.1.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "webpack-chain": "^5.2.0"
   }
 }
