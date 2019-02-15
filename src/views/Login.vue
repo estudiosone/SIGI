@@ -1,5 +1,5 @@
 <script>
-import {MDCRipple} from '@material/ripple';
+import firebase,{ functions } from 'firebase';
 
 export default {
   name: 'login',
@@ -7,11 +7,37 @@ export default {
     return {
       email: "",
       password: "",
+      loginIncorrect: false,
     }
+  },
+  created: function () {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+        // ...
+
+        console.log(email);
+      } else {
+        
+      }
+    });
   },
   methods: {
     onSubmit: function(event) {
-      alert(this.email);
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      .catch(function(error) {
+          this.loginError()
+      });
+    },
+    loginError: function (error) {
+      console.log(error.message)
     }
   },
 }
@@ -55,6 +81,9 @@ export default {
           </div>
           <div class="form-grup text-right">
             <button type="submit" class="btn btn-primary">Iniciar</button>
+            <div v-if="loginIncorrect" class="alert alert-danger" role="alert">
+              Usuario y/o contraseña incorrecta
+            </div>
           </div>
         </form>
       </div>
