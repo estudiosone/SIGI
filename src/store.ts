@@ -13,4 +13,13 @@ export default new Vuex.Store({
   actions: {
 
   },
+  modules: {
+    // Modulo encargado de manejar datos relacionados con la UI base
+    empresa: {
+      state: {
+        nombre: 'Chains PUB',
+        razonSocial: '',
+      },
+    },
+  },
 });
