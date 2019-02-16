@@ -1,46 +1,42 @@
-<script>
-import firebase,{ functions } from 'firebase';
+<script lang="ts">
+  import Vue from 'vue';
+  import firebase from 'firebase';
 
-export default {
-  name: 'login',
-  data() {
-    return {
-      email: "",
-      password: "",
-      loginIncorrect: false,
-    }
-  },
-  created: function () {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
-        // ...
-
-        console.log(email);
-      } else {
-        
-      }
-    });
-  },
-  methods: {
-    onSubmit: function(event) {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      .catch(function(error) {
-          this.loginError()
-      });
-    },
-    loginError: function (error) {
-      console.log(error.message)
-    }
-  },
-}
+  export default Vue.extend({
+    name: 'login',
+      data() {
+        return {
+          email: '',
+          password: '',
+          message: '',
+          error: false,
+        };
+      },
+      created() {
+        const currentUser = firebase.auth().currentUser;
+        if (currentUser) {
+          this.$router.replace('/');
+        }
+      },
+      methods: {
+        login() {
+          this.error = false;
+          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+            (user) => {
+              this.$router.replace('/');
+            },
+            (err) => {
+              this.error = true;
+              if (err.code === 'auth/wrong-password') {
+                this.message = 'Usuario y/o contraseña incorrecta';
+              } else {
+                this.message = err.message;
+              }
+            },
+          );
+        },
+      },
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -67,10 +63,10 @@ export default {
     <div id="login-card" class="card" style="width: 360px;">
       <img id="login-form-logo" src="../assets/logo.png" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">Iniciar sesión en</h5>
+        <h5 class="card-title">Inicio de sesión</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ this.$store.state.empresa.nombre }}</h6>
         <br>
-        <form v-on:submit.prevent="onSubmit">
+        <form v-on:submit.prevent="login">
           <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
             <input v-model="email" type="email" class="form-control" placeholder="Email" required>
@@ -79,10 +75,14 @@ export default {
             <label for="exampleInputPassword1">Contraseña</label>
             <input v-model="password" type="password" class="form-control" placeholder="Contraseña">
           </div>
-          <div class="form-grup text-right">
-            <button type="submit" class="btn btn-primary">Iniciar</button>
-            <div v-if="loginIncorrect" class="alert alert-danger" role="alert">
-              Usuario y/o contraseña incorrecta
+          <div class="row">
+            <div class="col">
+              <div v-if="error" class="alert alert-danger" role="alert">
+                {{ this.message }}
+              </div>
+            </div>
+            <div class="col text-right">
+              <button type="submit" class="btn btn-primary">Iniciar</button>
             </div>
           </div>
         </form>
