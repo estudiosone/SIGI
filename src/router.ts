@@ -31,6 +31,16 @@ const router = new Router({
               name: 'home_back-end_dashboard',
               component: () => import('./views/home/back-end/Dashboard.vue'),
             },
+            {
+              path: '/back-end/items',
+              name: 'home_back-end_dashboard',
+              component: () => import('./views/home/back-end/Dashboard.vue'),
+            },
+            {
+              path: '/back-end/inventory',
+              name: 'home_back-end_dashboard',
+              component: () => import('./views/home/back-end/Dashboard.vue'),
+            },
           ],
         },
       ],

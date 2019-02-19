@@ -1,15 +1,3 @@
-<template>
-  <div class="home">
-    <nav class="navbar navbar-light bg-light sticky-top">
-      <a class="navbar-brand" href="/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
-      <form class="form-inline my-2">
-        <button class="btn btn-outline-secondary my-2 my-sm-0" @click.prevent="logout">Cerrar sesión</button>
-      </form>
-    </nav>
-    <router-view></router-view>
-  </div>
-</template>
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import firebase from 'firebase';
@@ -33,10 +21,11 @@ export default Vue.extend({
   }
 })
 </script>
-
 <style lang="scss" scoped>
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons&style=outlined");
+@import url("https://storage.googleapis.com/non-spec-apps/mio-icons/latest/round.css");
 
 .home {
   display: grid;
@@ -56,4 +45,15 @@ export default Vue.extend({
   }
 }
 </style>
+<template>
+  <div class="home">
+    <nav class="navbar navbar-light bg-white border-bottom sticky-top">
+      <a class="navbar-brand" href="/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
+      <form class="form-inline my-2">
+        <button class="btn btn-outline-secondary my-2 my-sm-0" @click.prevent="logout">Cerrar sesión</button>
+      </form>
+    </nav>
+    <router-view></router-view>
+  </div>
+</template>
 
