@@ -11,9 +11,29 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: {
-        requiresAuth: true,
-      },
+      children: [
+        {
+          path: '/',
+          name: 'home-welcome',
+          component: () => import('./views/home/Welcome.vue'),
+        },
+        {
+          path: '/back-end',
+          name: 'home_back-end',
+          component: () => import(/* webpackChunkName: "back-end" */ './views/home/BackEnd.vue'),
+          children: [
+            {
+              path: '/back-end',
+              redirect: '/back-end/dashboard',
+            },
+            {
+              path: '/back-end/dashboard',
+              name: 'home_back-end_dashboard',
+              component: () => import('./views/home/back-end/Dashboard.vue'),
+            },
+          ],
+        },
+      ],
     },
     {
       path: '/login',
