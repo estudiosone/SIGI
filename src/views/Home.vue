@@ -3,47 +3,35 @@
     <nav class="navbar navbar-light bg-light sticky-top">
       <a class="navbar-brand" href="/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
       <form class="form-inline my-2">
-        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Cerrar sesión</button>
+        <button class="btn btn-outline-secondary my-2 my-sm-0" @click.prevent="logout">Cerrar sesión</button>
       </form>
     </nav>
-    <div class="home-container">
-      <div class="jumbotron">
-        <h1 class="display-4">Hola, Diego!</h1>
-        <p class="lead">Selecciona la app que desas iniciar.</p>
-        <hr class="my-4">
-        <div class="card-deck" style="max-width: 480px; margin-left: auto; margin-right: auto;">
-          <a class="card bg-light" >
-            <div class="card-body">
-              <h5 class="card-title">TPV</h5>
-              <div class="text-center">
-                <i class="material-icons">shopping_cart</i>
-              </div>
-            </div>
-          </a>
-          <a class="card bg-light">
-            <div class="card-body">
-              <h5 class="card-title">Back End</h5>
-              <div class="text-center">
-                <i class="material-icons">dashboard</i>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import firebase from 'firebase';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
-@Component({
-  components: {
-    HelloWorld,
+export default Vue.extend({
+  created() {
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) {
+      this.$router.replace('/login');
+    }
+    document.title = this.$store.state.system.appName + ' | Home'
   },
+  methods: {
+    logout: function() {
+      firebase.auth().signOut()
+      .then(() => {
+        this.$router.replace('/login');
+      })
+    }
+  }
 })
-export default class Home extends Vue {}
 </script>
 
 <style lang="scss" scoped>
