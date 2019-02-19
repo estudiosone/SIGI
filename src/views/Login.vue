@@ -17,6 +17,7 @@
         if (currentUser) {
           this.$router.replace('/');
         }
+        document.title = this.$store.state.system.appName + ' | Login'
       },
       methods: {
         login() {

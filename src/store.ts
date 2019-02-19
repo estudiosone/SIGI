@@ -14,6 +14,12 @@ export default new Vuex.Store({
 
   },
   modules: {
+    // Modulo de manejo de datos de sistema
+    system: {
+      state: {
+        appName: 'SIGI',
+      },
+    },
     // Modulo encargado de manejar datos relacionados con la UI base
     empresa: {
       state: {
