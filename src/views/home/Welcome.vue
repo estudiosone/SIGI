@@ -27,22 +27,22 @@ export default Vue.extend({
             <icon-sale/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Inventario">
-            <icon-system/>
+            <icon-inventory/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Market">
-            <icon-system/>
+            <icon-pos/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Compras">
             <icon-purchase/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Hotel">
-            <icon-system/>
+            <icon-hotel/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Restaurante">
-            <icon-system/>
+            <icon-restaurant/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Bar">
-            <icon-system/>
+            <icon-bar/>
           </u-i-button-big-menu>
           <u-i-button-big-menu to="/back-end/dashboard" title="Web Store">
             <icon-system/>
