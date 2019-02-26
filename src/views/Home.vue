@@ -4,15 +4,15 @@ import firebase from 'firebase';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 export default Vue.extend({
-  created() {
+  mounted() {
     const currentUser = firebase.auth().currentUser;
     if (!currentUser) {
       this.$router.replace('/login');
     }
-    document.title = this.$store.state.system.appName + ' | Home'
+    document.title = this.$store.state.system.appName + ' | Home;'
   },
   methods: {
-    logout: function() {
+    logout() {
       firebase.auth().signOut()
       .then(() => {
         this.$router.replace('/login');
@@ -48,12 +48,14 @@ export default Vue.extend({
 <template>
   <div class="home">
     <nav class="navbar navbar-light bg-white border-bottom sticky-top">
-      <a class="navbar-brand" href="/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
+      <a class="navbar-brand" href="/#/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
       <form class="form-inline my-2">
         <button class="btn btn-outline-secondary my-2 my-sm-0" @click.prevent="logout">Cerrar sesión</button>
       </form>
     </nav>
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 

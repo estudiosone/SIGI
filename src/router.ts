@@ -2,6 +2,7 @@ import Vue from 'vue';
 import firebase from 'firebase';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import store from './store';
 
 Vue.use(Router);
 
@@ -43,6 +44,29 @@ const router = new Router({
             },
           ],
         },
+        {
+          path: '/empresa',
+          name: 'empresa',
+          component: () => import('./modulos/empresa/Empresa.vue'),
+          children: [
+            {
+              path: '/empresa',
+              redirect: '/empresa/dashboard',
+            },
+            {
+              path: '/empresa/dashboard',
+              name: 'empresa-dashboard',
+              component: () => import(
+                /* webpackChunkName: "page-empresa-dashboard" */  './modulos/empresa/_Dashboard.vue'),
+            },
+            {
+              path: '/empresa/datos',
+              name: 'empresa-datos',
+              component: () => import(
+                /* webpackChunkName: "page-empresa-datos" */  './modulos/empresa/_Datos.vue'),
+            },
+          ],
+        },
       ],
     },
     {
@@ -58,20 +82,26 @@ const router = new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
+    {
+      path: '/inicializando',
+      name: 'inicializando',
+      component: () => import('./views/Inicializando.vue'),
+    },
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   const currentUser = firebase.auth().currentUser;
-//   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-
-//   if (requiresAuth && !currentUser) {
-//     next('login');
-//   } else if (!requiresAuth && currentUser) {
-//     next('home');
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'inicializando') {
+    store.state.navegacion.a = to.path;
+    if (store.state.navegacion.operativa) {
+      next();
+    } else {
+      next('inicializando');
+    }
+  } else {
+    next();
+  }
+  next();
+});
 
 export default router;

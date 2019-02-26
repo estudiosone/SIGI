@@ -1,9 +1,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import firebase from 'firebase';
+
+let storeData : any;
+
 export default Vue.extend({
   name: 'App',
-  created() {
+  beforeCreate() {
+    storeData = this.$store;
     const config = {
       apiKey: 'AIzaSyBO5CzX_tF6WRmj3cAseENmvDKR1mucv_I',
       authDomain: 'sigi-chains.firebaseapp.com',
@@ -12,8 +16,17 @@ export default Vue.extend({
       storageBucket: 'sigi-chains.appspot.com',
       messagingSenderId: '935347129012',
     };
-
-    firebase.initializeApp(config);
+    if (!firebase.apps[0]) {
+      firebase.initializeApp(config);
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      storeData.state.navegacion.operativa = true;
+      // if(user) {
+      //   console.log(user)
+      // } else {
+      //   console.log('sin usuario')
+      // }
+    });
   }
 });
 </script>
@@ -21,7 +34,9 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -39,5 +54,21 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+.icon {
+  width: 42px;
+  height: 42px;
+  margin: 0;
 }
 </style>

@@ -5,7 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-
+    navegacion: {
+      operativa: false,
+      a: '',
+      desde: undefined,
+  },
   },
   mutations: {
 
