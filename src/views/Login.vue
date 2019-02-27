@@ -22,17 +22,26 @@
       methods: {
         login() {
           this.error = false;
-          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-            (user) => {
-              this.$router.replace('/');
-            },
-            (err) => {
-              this.error = true;
-              if (err.code === 'auth/wrong-password') {
-                this.message = 'Usuario y/o contraseña incorrecta';
-              } else {
-                this.message = err.message;
-              }
+          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => {
+              return firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                .then((user) => {
+                  this.$router.replace('/');
+                },
+                (err) => {
+                  this.error = true;
+                  if (err.code === 'auth/wrong-password') {
+                    this.message = 'Usuario y/o contraseña incorrecta';
+                  } else {
+                    this.message = err.message;
+                  }
+                },
+              );
+            })
+            .catch((error) => {
+              // Handle Errors here.
+              const errorCode = error.code;
+              const errorMessage = error.message;
             },
           );
         },

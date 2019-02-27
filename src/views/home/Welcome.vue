@@ -1,5 +1,7 @@
 <script lang="ts">
 import Vue from 'vue';
+import firebase from 'firebase';
+
 // Iconos
 import UIButtonBigMenu from '../../components/ui/menu/ButtonBigMenu.vue';
 
@@ -7,13 +9,21 @@ export default Vue.extend({
   components: {
     UIButtonBigMenu,
   },
+  computed: {
+    displayName: () => {
+      const currentUser = firebase.auth().currentUser;
+      if (currentUser) {
+        return currentUser.displayName;
+      }
+    },
+  },
 });
 </script>
 
 <template>
     <div class="home-container">
       <div class="jumbotron text-center">
-        <h1 class="display-4">Hola, Diego!</h1>
+        <h1 class="display-4">Hola, {{ this.displayName }}!</h1>
         <p class="lead">Selecciona la app que desas iniciar.</p>
         <hr class="my-4">
         <div class="home-menu">

@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import firebase from 'firebase';
 
-let storeData : any;
+let storeData: any;
 
 export default Vue.extend({
   name: 'App',
@@ -19,15 +19,10 @@ export default Vue.extend({
     if (!firebase.apps[0]) {
       firebase.initializeApp(config);
     }
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged((user) => {
       storeData.state.navegacion.operativa = true;
-      // if(user) {
-      //   console.log(user)
-      // } else {
-      //   console.log('sin usuario')
-      // }
     });
-  }
+  },
 });
 </script>
 

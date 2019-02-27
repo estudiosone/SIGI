@@ -9,17 +9,33 @@ export default Vue.extend({
     if (!currentUser) {
       this.$router.replace('/login');
     }
-    document.title = this.$store.state.system.appName + ' | Home;'
+    document.title = this.$store.state.system.appName + ' | Home';
+  },
+  computed: {
+    displayNameFirst: () => {
+      const currentUser = firebase.auth().currentUser;
+      if (currentUser) {
+        const name = currentUser.displayName;
+        if (name) {
+          const words = name.split(' ');
+          return words[0];
+        } else {
+          return 'Name';
+        }
+      } else {
+        return 'Name';
+      }
+    },
   },
   methods: {
     logout() {
       firebase.auth().signOut()
       .then(() => {
         this.$router.replace('/login');
-      })
-    }
-  }
-})
+      });
+    },
+  },
+});
 </script>
 <style lang="scss" scoped>
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
@@ -50,7 +66,7 @@ export default Vue.extend({
     <nav class="navbar navbar-light bg-white border-bottom sticky-top">
       <a class="navbar-brand" href="/#/">SIGI | {{ this.$store.state.empresa.nombre}}</a>
       <form class="form-inline my-2">
-        <button class="btn btn-outline-secondary my-2 my-sm-0" @click.prevent="logout">Cerrar sesión</button>
+        <button class="btn btn-outline-secondary my-2 my-sm-0 dropdown-toggle" type="button" id="dropdownUserMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Hola, {{ this.displayNameFirst }}</button>
       </form>
     </nav>
     <transition name="fade" mode="out-in">
